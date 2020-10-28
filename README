@@ -1,0 +1,191 @@
+First Step: Create a file in iTerm 
+Second Step: run npm init-y in iTerm, a package.json file will be created. 
+Third Step: Create a entry point, touch index.js 
+(optional step below)
+console.log('Hello World!') - make sure it's conntected by running node index.js in iTerm 
+
+instsll is Nodemon for globally for all Node files to access 
+npm install -g nodemon 
+
+
+Create a ignore file, to insure we are not pushing all files to github
+ touch.gitignore 
+ add node_models in file 
+
+
+ Create Express File:
+
+ 1st: npm init-y 
+ 2nd: npm i express (install express)
+3rd: touch index.js (create entry point)
+4th: Add to top of file in index.js 
+const express = require('express')
+const app = express()
+
+Create a Home Route: 
+
+app.get('/', function (req,res){
+    res.send('hellp, world')
+})
+app.listen(8000)
+Run "nodemon" and open broswer by localhost:8000
+
+
+Response: 
+
+res.send(): sends back a simgple string. Like console.log 
+res.sendFile()- sends an entire file back (static file)
+res.render()- rends data into templates with the seclected template 
+res.json()- sends objects back as Json 
+
+Request: 
+req.body- this is where any submitted form data will be stored for us. 
+re.params- this is where special route variables are stored for us. 
+req.query- this is where the query string data is stored. 
+
+
+Views Folder: 
+Create a file 
+3 HTML files inside
+House route: 
+app.get('/', (req, res) {
+  res.sendFile(__dirname+'/views/index.html');
+});
+
+
+EJS Embedded Javascript: 
+Run "npm i ejs" 
+
+In index.js add the middleware: app.set('view engine', 'ejs');
+(rename html files to ejs files)
+
+Routes look like below: 
+app.get('/', (req, res)=>{
+  res.render('index');
+});
+
+For example: index.
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home Page</title>
+  </head>
+  <body>
+    <h1>Hello, <%= name %>!</h1>
+  </body>
+</html>
+
+
+The any JavaScript can be embedded using the <% %> tags. The addition of the = sign on the opening tag means that a value will be printed to the screen.
+
+Step 1: EJS Layouts: 
+
+Install EJS Layouts: "npm i express-ejs-layouts"
+
+Step 2:Set Up EJS Layouts: in index.js add the following 
+
+var express = require('express');
+var app = express();
+var ejsLayouts = require('express-ejs-layouts');
+
+app.set('view engine', 'ejs');
+app.use(ejsLayouts);
+
+app.listen(3000)
+
+Step 3:Create a Layout 
+
+In the root of the views folder, add a layout called layout.ejs. It must be called layout.ejs, as mandated by express-ejs-layouts.
+
+layout.ejs shouls look like the following: 
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Love It or Leave It</title>
+</head>
+<body>
+  <%- body %>
+</body>
+</html>
+
+Step 4: Create home.ejs file and add <h1> tags 
+
+
+ Middle ware in index.js 
+app.get('/', (req, res) => {
+  res.render('home');
+});
+
+
+Review CRUD: 
+GET-->Index (Read)
+POST -->Create 
+GET -->Show 
+GET-->Read
+PUT--> Update 
+DELETE --> Destory 
+
+To access our data, we'll use the fs (filesystem) core module. Import this module in index.js
+var fs = require('fs');
+
+
+Use method-override to implement PUT and DELETE routes in express.
+Install method-override via npm.
+Index js:
+var methodOverride = require('method-override');
+Configure middleware (make sure it lives above any other middleware code that uses the request method):
+app.use(methodOverride('_method'));
+
+
+.env(dotenv)
+touch .env 
+npm i dotenv 
+
+Store PORT in .env file 
+PORT=8000
+
+
+SQL Commands: 
+psql (run SQL)
+\l (show table)
+\c userapp_development (connect to table)
+\dt (see table)
+\q (quit)
+
+
+
+
+SEQUELIZE: 
+npm install -g sequelize-cli (only once globally)
+mkdir userapp
+cd userapp
+npm init -y
+touch index.js
+echo "node_modules" >> .gitignore
+
+npm install pg sequelize
+
+sequelize init
+
+Update Config file: 
+delete username and password and update dialect to 'postgress' and update database name to file name 
+
+Create Database: 
+sequelize db:create (userapp_development)
+Create model: 
+sequelize model:create --name user --attributes firstName:string,lastName:string,age:integer,email:string
+
+Running Migration: 
+sequelize db:migrate
+
+Undo Migration: 
+sequelize db:migrate:undo
+
+
+Inside index.js do:
+const db = require (‘./models’)
+
+
+
+
+
